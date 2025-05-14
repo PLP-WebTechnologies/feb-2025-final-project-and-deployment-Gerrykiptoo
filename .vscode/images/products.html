@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub - Our Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .menu-page {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .menu-page h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .menu-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #666;
+        }
+        
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background-color: white;
+            border: 2px solid var(--gray-color);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: 2px solid var(--gray-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 0;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-color);
+            color: var(--dark-color);
+        }
+        
+        @media (max-width: 768px) {
+            .menu-categories {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 15px;
+                justify-content: flex-start;
+            }
+            
+            .category-btn {
+                flex: 0 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-utensils"></i> FoodHub
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Menu</a></li>
+                <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Page -->
+    <main class="menu-page">
+        <h1>Our Menu</h1>
+        <p class="menu-description">Explore our wide variety of delicious dishes prepared with fresh ingredients by our expert chefs. From appetizers to desserts, we have something for everyone.</p>
+        
+        <div class="menu-categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="main">Main Dishes</button>
+            <button class="category-btn" data-category="pizza">Pizza</button>
+            <button class="category-btn" data-category="pasta">Pasta</button>
+            <button class="category-btn" data-category="salad">Salads</button>
+            <button class="category-btn" data-category="dessert">Desserts</button>
+            <button class="category-btn" data-category="beverage">Beverages</button>
+        </div>
+        
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="menu-search" placeholder="Search our menu...">
+        </div>
+        
+        <div class="menu-grid">
+            <!-- Menu items will be loaded here via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-utensils"></i> FoodHub</h3>
+                <p>Delicious food delivered to your doorstep</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Menu</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Food Street, City</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> info@foodhub.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 FoodHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu items data
+            const menuItems = [
+                // Main Dishes
+                { 
+                    name: 'Classic Burger', 
+                    price: '$12.99', 
+                    rating: 4.8,
+                    description: 'Juicy beef patty with cheese, lettuce, tomato, and special sauce',
+                    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'main'
+                },
+                { 
+                    name: 'Grilled Chicken', 
+                    price: '$14.99', 
+                    rating: 4.6,
+                    description: 'Tender grilled chicken breast with herbs and spices',
+                    image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+                    category: 'main'
+                },
+                { 
+                    name: 'Steak & Fries', 
+                    price: '$19.99', 
+                    rating: 4.9,
+                    description: 'Premium steak cooked to perfection with crispy fries',
+                    image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'main'
+                },
+                
+                // Pizza
+                { 
+                    name: 'Margherita Pizza', 
+                    price: '$14.99', 
+                    rating: 4.7,
+                    description: 'Traditional pizza with tomato sauce, mozzarella, and fresh basil',
+                    image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'pizza'
+                },
+                { 
+                    name: 'Pepperoni Pizza', 
+                    price: '$15.99', 
+                    rating: 4.8,
+                    description: 'Classic pizza topped with pepperoni slices and cheese',
+                    image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80',
+                    category: 'pizza'
+                },
+                { 
+                    name: 'Vegetarian Pizza', 
+                    price: '$16.99', 
+                    rating: 4.5,
+                    description: 'Loaded with fresh vegetables and cheese on a thin crust',
+                    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'pizza'
+                },
+                
+                // Pasta
+                { 
+                    name: 'Chicken Alfredo Pasta', 
+                    price: '$16.99', 
+                    rating: 4.6,
+                    description: 'Creamy alfredo sauce with grilled chicken and fettuccine pasta',
+                    image: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'pasta'
+                },
+                { 
+                    name: 'Spaghetti Bolognese', 
+                    price: '$15.99', 
+                    rating: 4.7,
+                    description: 'Classic spaghetti with rich meat sauce and parmesan',
+                    image: 'https://images.unsplash.com/photo-1622973536968-3ead9e780960?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'pasta'
+                },
+                
+                // Salads
+                { 
+                    name: 'Caesar Salad', 
+                    price: '$10.99', 
+                    rating: 4.5,
+                    description: 'Fresh romaine lettuce with caesar dressing, croutons, and parmesan',
+                    image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'salad'
+                },
+                { 
+                    name: 'Greek Salad', 
+                    price: '$11.99', 
+                    rating: 4.6,
+                    description: 'Cucumber, tomato, olives, and feta cheese with olive oil dressing',
+                    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1184&q=80',
+                    category: 'salad'
+                },
+                { 
+                    name: 'Vegetable Stir Fry', 
+                    price: '$13.99', 
+                    rating: 4.5,
+                    description: 'Fresh vegetables stir-fried with tofu in a savory sauce',
+                    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'salad'
+                },
+                
+                // Desserts
+                { 
+                    name: 'Chocolate Brownie', 
+                    price: '$6.99', 
+                    rating: 4.9,
+                    description: 'Rich chocolate brownie served with vanilla ice cream',
+                    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80',
+                    category: 'dessert'
+                },
+                { 
+                    name: 'Cheesecake', 
+                    price: '$7.99', 
+                    rating: 4.8,
+                    description: 'Creamy cheesecake with berry compote',
+                    image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'dessert'
+                },
+                { 
+                    name: 'Tiramisu', 
+                    price: '$8.99', 
+                    rating: 4.7,
+                    description: 'Classic Italian dessert with coffee-soaked ladyfingers and mascarpone',
+                    image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80',
+                    category: 'dessert'
+                },
+                
+                // Beverages
+                { 
+                    name: 'Fresh Fruit Smoothie', 
+                    price: '$7.99', 
+                    rating: 4.7,
+                    description: 'Blend of seasonal fruits with yogurt and honey',
+                    image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1208&q=80',
+                    category: 'beverage'
+                },
+                { 
+                    name: 'Iced Coffee', 
+                    price: '$4.99', 
+                    rating: 4.6,
+                    description: 'Cold brewed coffee served over ice with cream',
+                    image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80',
+                    category: 'beverage'
+                },
+                { 
+                    name: 'Fresh Lemonade', 
+                    price: '$3.99', 
+                    rating: 4.5,
+                    description: 'Freshly squeezed lemons with a hint of mint',
+                    image: 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                    category: 'beverage'
+                }
+            ];
+            
+            const menuGrid = document.querySelector('.menu-grid');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const searchInput = document.getElementById('menu-search');
+            
+            // Function to create star rating HTML
+            function createStarRating(rating) {
+                let starsHTML = '';
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                
+                for (let i = 0; i < fullStars; i++) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                }
+                
+                if (hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                }
+                
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                for (let i = 0; i < emptyStars; i++) {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+                
+                return starsHTML;
+            }
+            
+            // Function to create menu item card
+            function createMenuItemCard(item) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.dataset.category = item.category;
+                
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <span class="price">${item.price}</span>
+                        <div class="rating">${createStarRating(item.rating)}</div>
+                        <p>${item.description}</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                `;
+                
+                return card;
+            }
+            
+            // Function to display menu items by category
+            function displayMenuItems(category = 'all', searchTerm = '') {
+                menuGrid.innerHTML = '';
+                
+                // Filter items by category and search term
+                let filteredItems = menuItems;
+                
+                if (category !== 'all') {
+                    filteredItems = filteredItems.filter(item => item.category === category);
+                }
+                
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    filteredItems = filteredItems.filter(item => 
+                        item.name.toLowerCase().includes(term) || 
+                        item.description.toLowerCase().includes(term) ||
+                        item.category.toLowerCase().includes(term)
+                    );
+                }
+                
+                // Display no results message if no items match
+                if (filteredItems.length === 0) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = `
+                        <i class="fas fa-search"></i>
+                        <p>No menu items found. Try a different search term or category.</p>
+                    `;
+                    menuGrid.appendChild(noResults);
+                    return;
+                }
+                
+                // Group items by category if showing all categories
+                if (category === 'all' && !searchTerm) {
+                    const categories = ['main', 'pizza', 'pasta', 'salad', 'dessert', 'beverage'];
+                    const categoryNames = {
+                        main: 'Main Dishes',
+                        pizza: 'Pizza',
+                        pasta: 'Pasta',
+                        salad: 'Salads',
+                        dessert: 'Desserts',
+                        beverage: 'Beverages'
+                    };
+                    
+                    categories.forEach(cat => {
+                        const categoryItems = menuItems.filter(item => item.category === cat);
+                        
+                        if (categoryItems.length > 0) {
+                            // Add category title
+                            const categoryTitle = document.createElement('h2');
+                            categoryTitle.className = 'category-title';
+                            categoryTitle.textContent = categoryNames[cat];
+                            menuGrid.appendChild(categoryTitle);
+                            
+                            // Add items in this category
+                            categoryItems.forEach(item => {
+                                menuGrid.appendChild(createMenuItemCard(item));
+                            });
+                        }
+                    });
+                } else {
+                    // Just display filtered items without categories
+                    filteredItems.forEach(item => {
+                        menuGrid.appendChild(createMenuItemCard(item));
+                    });
+                }
+                
+                // Add event listeners to Add to Cart buttons
+                document.querySelectorAll('.add-to-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const card = this.closest('.product-card');
+                        const name = card.querySelector('h3').textContent;
+                        const price = card.querySelector('.price').textContent;
+                        const image = card.querySelector('img').src;
+                        
+                        // Get existing cart items or initialize empty array
+                        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                        
+                        // Check if item is already in cart
+                        const existingItem = cartItems.find(item => item.name === name);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            cartItems.push({
+                                name,
+                                price,
+                                image,
+                                quantity: 1
+                            });
+                        }
+                        
+                        // Save to localStorage
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                        
+                        // Update cart count
+                        updateCartCount();
+                        
+                        // Show notification
+                        showNotification(`${name} added to cart!`);
+                    });
+                });
+            }
+            
+            // Function to update cart count
+            function updateCartCount() {
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+                    cartCount.textContent = totalItems;
+                }
+            }
+            
+            // Function to show notification
+            function showNotification(message) {
+                // Check if notification container exists, if not create it
+                let notificationContainer = document.querySelector('.notification-container');
+                
+                if (!notificationContainer) {
+                    notificationContainer = document.createElement('div');
+                    notificationContainer.className = 'notification-container';
+                    document.body.appendChild(notificationContainer);
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <p>${message}</p>
+                `;
+                
+                // Add to container
+                notificationContainer.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                }, 3000);
+            }
+            
+            // Initialize menu display
+            displayMenuItems();
+            updateCartCount();
+            
+            // Category button click event
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Display menu items for selected category
+                    const category = this.dataset.category;
+                    displayMenuItems(category, searchInput.value);
+                });
+            });
+            
+            // Search input event
+            searchInput.addEventListener('input', function() {
+                const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+                displayMenuItems(activeCategory, this.value);
+            });
+        });
+    </script>
+</body>
+</html>
