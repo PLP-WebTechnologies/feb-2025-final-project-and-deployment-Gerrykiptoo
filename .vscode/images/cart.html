@@ -214,8 +214,8 @@
             </div>
             <div class="footer-section">
                 <h3>Contact Us</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Food Street, City</p>
-                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi Food Street, City</p>
+                <p><i class="fas fa-phone"></i> + 254 703 888 085 </p>
                 <p><i class="fas fa-envelope"></i> info@foodhub.com</p>
             </div>
         </div>
@@ -224,6 +224,150 @@
         </div>
     </footer>
 
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get cart items from localStorage
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartContainer = document.getElementById('cart-container');
+            
+            // Display cart items or empty cart message
+            if (cartItems.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                        <a href="products.html" class="cta-button primary">Browse Menu</a>
+                    </div>
+                `;
+            } else {
+                // Calculate total
+                let total = 0;
+                
+                // Create cart items HTML
+                let cartItemsHTML = '<div class="cart-items">';
+                
+                cartItems.forEach((item, index) => {
+                    // Extract price as number
+                    const priceValue = parseFloat(item.price.replace('$', ''));
+                    const itemTotal = priceValue * item.quantity;
+                    total += itemTotal;
+                    
+                    cartItemsHTML += `
+                        <div class="cart-item" data-index="${index}">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-info">
+                                <h3>${item.name}</h3>
+                                <p class="price">${item.price} each</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <div class="quantity-control">
+                                    <button class="decrease-quantity"><i class="fas fa-minus"></i></button>
+                                    <span class="item-quantity">${item.quantity}</span>
+                                    <button class="increase-quantity"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <button class="remove-item"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                cartItemsHTML += '</div>';
+                
+                // Add cart summary
+                cartItemsHTML += `
+                    <div class="cart-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <p>Subtotal:</p>
+                            <p>$${total.toFixed(2)}</p>
+                        </div>
+                        <div class="summary-row">
+                            <p>Delivery Fee:</p>
+                            <p>$2.99</p>
+                        </div>
+                        <div class="summary-row total">
+                            <p>Total:</p>
+                            <p id="cart-total">$${(total + 2.99).toFixed(2)}</p>
+                        </div>
+                        <button class="checkout-btn">Proceed to Checkout</button>
+                        <a href="products.html" class="continue-shopping">Continue Shopping</a>
+                    </div>
+                `;
+                
+                cartContainer.innerHTML = cartItemsHTML;
+                
+                // Add event listeners for quantity controls and remove buttons
+                document.querySelectorAll('.decrease-quantity').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const cartItem = this.closest('.cart-item');
+                        const index = parseInt(cartItem.dataset.index);
+                        if (cartItems[index].quantity > 1) {
+                            cartItems[index].quantity -= 1;
+                            cartItem.querySelector('.item-quantity').textContent = cartItems[index].quantity;
+                            updateCart();
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.increase-quantity').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const cartItem = this.closest('.cart-item');
+                        const index = parseInt(cartItem.dataset.index);
+                        cartItems[index].quantity += 1;
+                        cartItem.querySelector('.item-quantity').textContent = cartItems[index].quantity;
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const cartItem = this.closest('.cart-item');
+                        const index = parseInt(cartItem.dataset.index);
+                        cartItems.splice(index, 1);
+                        updateCart();
+                        
+                        // Reload the page to reflect changes
+                        location.reload();
+                    });
+                });
+                
+                // Checkout button
+                document.querySelector('.checkout-btn').addEventListener('click', function() {
+                    alert('Thank you for your order! Your delicious food will be on its way soon.');
+                    // Clear cart
+                    localStorage.removeItem('cartItems');
+                    location.reload();
+                });
+            }
+            
+            // Function to update cart in localStorage and update cart count
+            function updateCart() {
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Update cart count
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+                    cartCount.textContent = totalItems;
+                }
+                
+                // Update total
+                let total = 0;
+                cartItems.forEach(item => {
+                    const priceValue = parseFloat(item.price.replace('$', ''));
+                    total += priceValue * item.quantity;
+                });
+                
+                const cartTotal = document.getElementById('cart-total');
+                if (cartTotal) {
+                    cartTotal.textContent = `$${(total + 2.99).toFixed(2)}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
     <script src="scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
